@@ -11,6 +11,8 @@
 		B8E79249298A5DBE003C6F67 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E79248298A5DBE003C6F67 /* ContentView.swift */; };
 		B8E7924B298A5DC0003C6F67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8E7924A298A5DC0003C6F67 /* Assets.xcassets */; };
 		B8E7924E298A5DC0003C6F67 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8E7924D298A5DC0003C6F67 /* Preview Assets.xcassets */; };
+		B8E79255298A5E92003C6F67 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E79254298A5E92003C6F67 /* User.swift */; };
+		B8E79259298A9C40003C6F67 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E79258298A9C40003C6F67 /* UserDetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		B8E79248298A5DBE003C6F67 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B8E7924A298A5DC0003C6F67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8E7924D298A5DC0003C6F67 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B8E79254298A5E92003C6F67 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B8E79258298A9C40003C6F67 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,8 @@
 			children = (
 				B8E79246298A5DBE003C6F67 /* FriendbookApp.swift */,
 				B8E79248298A5DBE003C6F67 /* ContentView.swift */,
+				B8E79258298A9C40003C6F67 /* UserDetailsView.swift */,
+				B8E79254298A5E92003C6F67 /* User.swift */,
 				B8E7924A298A5DC0003C6F67 /* Assets.xcassets */,
 				B8E7924C298A5DC0003C6F67 /* Preview Content */,
 			);
@@ -137,8 +143,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8E79259298A9C40003C6F67 /* UserDetailsView.swift in Sources */,
 				B8E79249298A5DBE003C6F67 /* ContentView.swift in Sources */,
 				B8E79247298A5DBE003C6F67 /* FriendbookApp.swift in Sources */,
+				B8E79255298A5E92003C6F67 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

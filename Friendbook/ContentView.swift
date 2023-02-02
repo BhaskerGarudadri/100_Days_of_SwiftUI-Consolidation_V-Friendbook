@@ -8,14 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var users = Users()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            List(users.usersDetails, id: \.id) { user in
+                NavigationLink {
+                    UserDetailsView(users: users.usersDetails, user: user, friends: user.friends)
+                } label: {
+                    HStack {
+                        Text(user.name)
+                        Spacer()
+                        Text(user.isActive ? "Online" : "Offline")
+                            .font(.system(size: 12))
+                            .frame(maxWidth: 50, maxHeight: 30)
+                            .background(user.isActive ? .green : .clear)
+                            .clipShape(Capsule())
+                    }
+                }
+            }
+            .navigationTitle("Friendbook")
         }
-        .padding()
     }
 }
 
