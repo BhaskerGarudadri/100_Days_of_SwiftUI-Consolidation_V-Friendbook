@@ -5,9 +5,11 @@
 //  Created by Edwin Przeźwiecki Jr. on 01/02/2023.
 //
 
-import SwiftUI
+import Foundation
 
-class Users: ObservableObject {
+/// Previous solution:
+
+/* class Users: ObservableObject {
     
     @Published var usersDetails = [User]()
     
@@ -35,7 +37,7 @@ class Users: ObservableObject {
         }
         .resume()
     }
-}
+} */
 
 struct User: Codable {
     

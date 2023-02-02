@@ -9,13 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var users = Users()
+    /// Previous solution:
+//    @StateObject var users = Users()
+    @State private var users = [User]()
     
     var body: some View {
         NavigationView {
-            List(users.usersDetails, id: \.id) { user in
+            List(users, id: \.id) { user in
                 NavigationLink {
-                    UserDetailsView(users: users.usersDetails, user: user, friends: user.friends)
+                    UserDetailsView(users: users, user: user, friends: user.friends)
                 } label: {
                     HStack {
                         Text(user.name)
@@ -29,6 +31,25 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Friendbook")
+            .task {
+                await fetchUsers()
+            }
+        }
+    }
+    
+    func fetchUsers() async {
+        guard users.isEmpty else { return }
+        
+        do {
+            let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
+            users = try decoder.decode([User].self, from: data)
+        } catch {
+            print("Download error: \(error.localizedDescription)")
         }
     }
 }

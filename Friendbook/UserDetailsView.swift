@@ -63,6 +63,7 @@ struct UserDetailsView: View {
                 }
             }
         }
+        .listStyle(.plain)
         .navigationTitle(user.name)
         .navigationBarTitleDisplayMode(.inline)
     }
