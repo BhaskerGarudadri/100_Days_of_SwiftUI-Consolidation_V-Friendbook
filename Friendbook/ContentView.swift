@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
     /// Previous solution:
 //    @StateObject var users = Users()
     @State private var users = [User]()
