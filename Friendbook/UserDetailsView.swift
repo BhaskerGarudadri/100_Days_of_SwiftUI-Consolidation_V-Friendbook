@@ -9,9 +9,8 @@ import SwiftUI
 
 struct UserDetailsView: View {
     
-    let users: [User]
-    let user: User
-    let friends: [User.Friend]
+    let users: FetchedResults<CachedUser>
+    let user: CachedUser
     
     var body: some View {
         List {
@@ -20,28 +19,28 @@ struct UserDetailsView: View {
             }
             
             Section("Company") {
-                Text(user.company)
+                Text(user.wrappedCompany)
             }
             
             Section("Email address") {
-                Text(user.email)
+                Text(user.wrappedEmail)
             }
             
             Section("Home address") {
-                Text(user.address)
+                Text(user.wrappedAddress)
             }
             
             Section("Bio") {
-                Text(user.about)
+                Text(user.wrappedAbout)
             }
             
             Section("Date of registration") {
-                Label(user.registered.formatted(date: .abbreviated, time: .complete), systemImage: "calendar")
+                Label(user.wrappedRegistered.formatted(date: .abbreviated, time: .complete), systemImage: "calendar")
             }
             
             Section("Tags") {
                 HStack {
-                    ForEach(user.tags, id: \.self) { tag in
+                    ForEach(user.wrappedTags.components(separatedBy: ","), id: \.self) { tag in
                         Text(tag)
                             .padding(3)
                             .font(.system(size: 9))
@@ -52,32 +51,32 @@ struct UserDetailsView: View {
             }
             
             Section("Friends") {
-                ForEach(friends, id: \.id) { friend in
+                ForEach(user.friendsArray, id: \.wrappedID) { friend in
                     NavigationLink {
-                        if let user = locateUser(friend: friend, in: users) {
-                            UserDetailsView(users: users, user: user, friends: user.friends)
+                        if let user = locateUser(friend, in: users) {
+                            UserDetailsView(users: users, user: user)
                         }
                     } label: {
-                        Text(friend.name)
+                        Text(friend.wrappedName)
                     }
                 }
             }
         }
         .listStyle(.plain)
-        .navigationTitle(user.name)
+        .navigationTitle(user.wrappedName)
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    func locateUser(friend: User.Friend, in array: [User]) -> User? {
-        if let user = array.first(where: { $0.id == friend.id }) {
+    func locateUser(_ friend: CachedFriend, in array: FetchedResults<CachedUser>) -> CachedUser? {
+        if let user = array.first(where: { $0.wrappedID == friend.wrappedID }) {
             return user
         }
         return nil
     }
 }
 
-struct UserDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserDetailsView(users: [], user: User.example, friends: [])
-    }
-}
+//struct UserDetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UserDetailsView()
+//    }
+//}

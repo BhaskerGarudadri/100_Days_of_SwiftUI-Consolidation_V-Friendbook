@@ -9,20 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @Environment(\.managedObjectContext) var moc
+    /// Initial solution:
+//    @StateObject var users = Users()
     
     /// Previous solution:
-//    @StateObject var users = Users()
-    @State private var users = [User]()
+//    @State private var users = [User]()
+    
+    /// Core Data:
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var users: FetchedResults<CachedUser>
     
     var body: some View {
         NavigationView {
-            List(users, id: \.id) { user in
+            List(users) { user in
                 NavigationLink {
-                    UserDetailsView(users: users, user: user, friends: user.friends)
+                    UserDetailsView(users: users, user: user)
                 } label: {
                     HStack {
-                        Text(user.name)
+                        Text(user.wrappedName)
                         Spacer()
                         Text(user.isActive ? "Online" : "Offline")
                             .font(.system(size: 12))
@@ -40,6 +44,7 @@ struct ContentView: View {
     }
     
     func fetchUsers() async {
+        
         guard users.isEmpty else { return }
         
         do {
@@ -49,10 +54,42 @@ struct ContentView: View {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             
-            users = try decoder.decode([User].self, from: data)
+            /* -> */ let users = try decoder.decode([User].self, from: data)
+            
+            await MainActor.run {
+                updateCache(with: users)
+            }
         } catch {
             print("Download error: \(error.localizedDescription)")
         }
+    }
+    
+    func updateCache(with downloadedUsers: [User]) {
+        
+        for user in downloadedUsers {
+            let cachedUser = CachedUser(context: moc)
+            
+            cachedUser.id = user.id
+            cachedUser.isActive = user.isActive
+            cachedUser.name = user.name
+            cachedUser.age = Int16(user.age)
+            cachedUser.company = user.company
+            cachedUser.email = user.email
+            cachedUser.address = user.address
+            cachedUser.about = user.about
+            cachedUser.registered = user.registered
+            cachedUser.tags = user.tags.joined(separator: ",")
+            
+            for friend in user.friends {
+                let cachedFriend = CachedFriend(context: moc)
+                cachedFriend.id = friend.id
+                cachedFriend.name = friend.name
+                
+                cachedUser.addToFriends(cachedFriend)
+            }
+        }
+        
+        try? moc.save()
     }
 }
 

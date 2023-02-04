@@ -2,7 +2,7 @@
 //  CachedUser+CoreDataClass.swift
 //  Friendbook
 //
-//  Created by Edwin Przeźwiecki Jr. on 03/02/2023.
+//  Created by Edwin Przeźwiecki Jr. on 04/02/2023.
 //
 //
 
